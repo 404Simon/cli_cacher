@@ -8,7 +8,7 @@
 #include <cstring>
 #include <filesystem>
 
-std::string cachePath = "/Users/simon/dev/cli_cacher/cache/";
+std::string cachePath;
 
 std::string executeCommand(const std::string &cmd, int &exitCode) {
     std::array<char, 128> buffer;
@@ -60,13 +60,15 @@ bool cacheExists(const std::string &cmd) {
 }
 
 int main(int argc, char* argv[]) {
-    if (argc < 2) {
-        std::cerr << "Usage: " << argv[0] << " <command> [args...]" << std::endl;
+    if (argc < 3) {
+        std::cerr << "Usage: " << argv[0] << " <cache_dir> <command> [args...]" << std::endl;
         return 1;
     }
 
+    cachePath = argv[1];
+
     std::string cmd;
-    for (int i = 1; i < argc; ++i) {
+    for (int i = 2; i < argc; ++i) {
         cmd += argv[i];
         if (i < argc - 1) {
             cmd += " ";
